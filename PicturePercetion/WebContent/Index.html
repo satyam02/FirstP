@@ -1,0 +1,156 @@
+<!DOCTYPE html>
+<html>
+<head><meta charset="ISO-8859-1">
+	<style>
+		body{
+		  background-image: url('wallpaper.JPG');
+		}
+		
+		.text_div {
+			padding-left: 420px;
+			font-size: 40px;
+			background-color: yellow;
+		}
+				
+		.empTable {
+			margin-left: 100px;
+		}
+		
+		.empTable td{
+			padding: 20px;
+		}
+	</style>
+	<script src="https://code.jquery.com/jquery-1.12.4.min.js"></script>
+	<script type="text/javascript">
+	$(document).ready(function(){
+	var me = this;
+	var empArray = ["Satyam", "Akshay", "Vin Diesel", "Robert Pattinson", "Sylvester Stallone", "Robert Downey", "Jason Statham", "Saksham", "Rishabh", "Rudra"];
+	
+	
+	
+	$("#picture1").click(function(c){
+		$(me).displayResult(c);			
+	});	
+	$("#picture2").click(function(c){
+		$(me).displayResult(c);
+	});	
+	$("#picture3").click(function(c){
+		$(me).displayResult(c);
+	});
+	$("#picture4").click(function(c){
+		$(me).displayResult(c);
+	});
+	
+	$.fn.displayResult = function(e)
+	{
+		var text = $('.text_div > span').text();
+		
+		if( e.target.src.indexOf(text) !== -1){
+			$('.ans_div > span').text("Bingo!").css("color","green");
+		}
+		else{
+			$('.ans_div > span').text( "Try Again!").css("color","red");;
+		}
+		setTimeout(function(){
+			$(me).rotate();
+			$('.ans_div > span').text( "" );
+		},1000);
+	}
+
+	$.fn.screenChange = function(person, arrayOfImages)
+	{
+		$.each(arrayOfImages, function(index, value){
+            $('#picture'+(index+1)).attr('src', value+'.JPG');	
+		});
+	}
+	
+	$.fn.rotate = function()
+	{
+		var randomPerson= Math.floor(Math.random()*10);
+		var employee = empArray[randomPerson];		
+		var imgArray = [];
+		$(me).pushInArray(imgArray, employee);		
+		$('.text_div > span').text(employee);
+		
+		$(me).screenChange(employee, imgArray);
+	}
+	
+	$.fn.pushInArray = function(imgArray, person){
+		var tmp = [];
+		if(person && imgArray.indexOf(person) === -1){
+			imgArray.push(person);
+		} else {
+			var randomPerson= Math.floor(Math.random()*10);
+			person = empArray[randomPerson];
+			$(me).pushInArray(imgArray, person);
+		}
+		
+		if(imgArray.length < 4) {
+			$(me).pushInArray(imgArray, null);
+		} else { // shuffle images
+			imgArray = $(me).shuffle(imgArray);
+		}	
+	}	
+	
+	$.fn.shuffle = function(array){
+	  var currentIndex = array.length, temporaryValue, randomIndex;
+
+	  // While there remain elements to shuffle...
+	  while (0 !== currentIndex) {
+
+		// Pick a remaining element...
+		randomIndex = Math.floor(Math.random() * currentIndex);
+		currentIndex -= 1;
+
+		// And swap it with the current element.
+		temporaryValue = array[currentIndex];
+		array[currentIndex] = array[randomIndex];
+		array[randomIndex] = temporaryValue;
+	  }
+
+	  return array;
+	}
+	
+	$(me).rotate();
+});			
+</script>
+
+
+</head>
+<body>
+	<h1>
+		<div class="text_div">
+			<font size="+5">Choose </font><span style="font-size:150%;"></span>
+		</div>
+	</h1>
+	<table class="empTable">
+		<tr>
+			<td>
+				<p>
+					<img src="" id="picture1" height="300px" width="250px" border="2px solid #4CAF50" />
+					
+				</p>
+			</td>
+			<td>
+				<p>
+					<img src="" id="picture2" height="300px" width="250px" border="2px solid #4CAF50" />
+					
+				</p>
+			</td>
+			<td>
+				<p>
+					<img src="" id="picture3" height="300px" width="250px" border="2px solid #4CAF50" />			
+				</p>
+			</td>
+			<td>
+				<p>
+					<img src="" id="picture4" height="300px" width="250px" border="2px solid #4CAF50" />
+				</p>
+			</td>
+		</tr>
+	</table>
+	<div class="ans_div">
+		<span style="font-size: 50px; font-weight: bold;"></span>
+	</div>
+	</body>
+</html>
